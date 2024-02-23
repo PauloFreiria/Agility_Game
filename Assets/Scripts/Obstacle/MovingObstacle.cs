@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingObstacle : Obstacle
@@ -19,17 +16,30 @@ public class MovingObstacle : Obstacle
         canSwitch = false;
     }
 
-
-    private void Update()
+    private void FixedUpdate()
     {
+
+        if (CheckCanMove() == false) return;
+
+        HandleMovement();
+
+        CheckAndHandleReachedPosition();
                 
-        if (!canMove)
+    }
+
+    private bool CheckCanMove()
+    {
+        if (canMove == false)
         {
             TimeCount();
-            return;
-
+            return false;
         }
 
+        return true;
+    }
+   
+    private void HandleMovement()
+    {
         if (canSwitch == false)
         {
             transform.position = Vector3.MoveTowards(transform.position, position2.position, velocity * Time.deltaTime);
@@ -38,7 +48,11 @@ public class MovingObstacle : Obstacle
         {
             transform.position = Vector3.MoveTowards(transform.position, position1.position, velocity * Time.deltaTime);
         }
+    }
 
+
+    private void CheckAndHandleReachedPosition()
+    {
         if (transform.position == position1.position)
         {
             canMove = false;
@@ -50,9 +64,9 @@ public class MovingObstacle : Obstacle
             canMove = false;
             canSwitch = true;
         }
-
     }
-
+     
+   
     private void TimeCount()
     {
         elapsedTime += Time.deltaTime;

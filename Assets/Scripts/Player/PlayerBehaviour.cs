@@ -29,7 +29,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(moveDirection * velocity * Time.deltaTime);
+        transform.Translate(moveDirection * (velocity * Time.deltaTime));
     }
 
     private void MovePlayer(InputAction.CallbackContext context)
